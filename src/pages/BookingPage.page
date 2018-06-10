@@ -1,0 +1,32 @@
+<apex:page controller="BookingController">
+    <apex:form >
+        <apex:pageBlock >
+            <apex:pageMessages />
+            
+            <apex:pageBlockButtons >
+                <apex:commandButton value="Search Rooms" action="{!doSearch}" />
+                <apex:commandButton value="Book Room" action="{!doCalculate}"/>
+            </apex:pageBlockButtons>
+            
+            <apex:pageBlockSection >
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel >Room</apex:outputLabel>
+                    <apex:inputField value="{!searchRoom.Room__c}"/>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel >Addon</apex:outputLabel>
+                    <apex:inputField value="{!searchRoom.Addon__c}"/>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel >Date From</apex:outputLabel>
+                    <apex:inputField value="{!searchRoom.DateFrom__c}"/>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel >Date To</apex:outputLabel>
+                    <apex:inputField value="{!searchRoom.DateTo__c}"/>
+                </apex:pageBlockSectionItem>
+            </apex:pageBlockSection>
+     
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>
