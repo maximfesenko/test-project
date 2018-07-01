@@ -12,5 +12,11 @@
 		<members>*</members>
 		<name>ApexTrigger</name>
 	</types>
+	<types>
+		<members>Addon__c</members>
+		<members>Room__c</members>
+		<members>BookingRoom__c</members>
+		<name>CustomObject</name>
+	</types>
 	<version>42.0</version>
 </Package>
