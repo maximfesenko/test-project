@@ -1,32 +1,122 @@
 <apex:page controller="BookingController">
-    <apex:form >
-        <apex:pageBlock >
-            <apex:pageMessages />
-            
-            <apex:pageBlockButtons >
-                <apex:commandButton value="Search Rooms" action="{!doSearch}" />
-                <apex:commandButton value="Book Room" action="{!doCalculate}"/>
-            </apex:pageBlockButtons>
-            
-            <apex:pageBlockSection >
-                <apex:pageBlockSectionItem >
-                    <apex:outputLabel >Room</apex:outputLabel>
-                    <apex:inputField value="{!searchRoom.Room__c}"/>
-                </apex:pageBlockSectionItem>
-                <apex:pageBlockSectionItem >
-                    <apex:outputLabel >Addon</apex:outputLabel>
-                    <apex:inputField value="{!searchRoom.Addon__c}"/>
-                </apex:pageBlockSectionItem>
-                <apex:pageBlockSectionItem >
-                    <apex:outputLabel >Date From</apex:outputLabel>
-                    <apex:inputField value="{!searchRoom.DateFrom__c}"/>
-                </apex:pageBlockSectionItem>
-                <apex:pageBlockSectionItem >
-                    <apex:outputLabel >Date To</apex:outputLabel>
-                    <apex:inputField value="{!searchRoom.DateTo__c}"/>
-                </apex:pageBlockSectionItem>
-            </apex:pageBlockSection>
-     
-        </apex:pageBlock>
+
+    <apex:slds />
+
+    <apex:form id="MessageId">
+        <apex:pageMessages />
+
+        <apex:actionFunction name="doSearchRoomFunc" action="{!doSearch}" reRender="MessageId" oncomplete="displayTable('{!priceJSON}')">
+            <apex:param name="room" value="" />
+            <apex:param name="addon" value="" />
+            <apex:param name="dateFrom" value="" />
+            <apex:param name="dateTo" value="" />
+        </apex:actionFunction>
     </apex:form>
+
+    <div class="slds-scope">
+        <div class="slds-grid slds-wrap">
+            <div class="slds-col slds-size_1-of-1">
+                <div class="slds-button-group slds-align_absolute-center" role="group">
+                    <button class="slds-button slds-button_neutral" onclick="doSearchRoom()">Search Rooms</button>
+                    <button class="slds-button slds-button_brand" onclick="doBookRoom()">Book Rooms</button>
+                </div>
+            </div>
+            <div class="slds-col slds-size_1-of-2">
+                <div class="slds-form-element">
+                    <label class="slds-form-element__label" for="text-input-id-1">Room</label>
+                    <div class="slds-form-element__control">
+                        <input type="text" id="text-input-id-room" class="slds-input" placeholder="Room" value="{!searchRoomName}" />
+                    </div>
+                </div>
+            </div>
+            <div class="slds-col slds-size_1-of-2">
+                <div class="slds-form-element">
+                    <label class="slds-form-element__label" for="text-input-id-1">Addon</label>
+                    <div class="slds-form-element__control">
+                        <input type="text" id="text-input-id-addon" class="slds-input" placeholder="Addon" value="{!searchAddonName}" />
+                    </div>
+                </div>
+            </div>
+            <div class="slds-col slds-size_1-of-2">
+                <div class="slds-form-element">
+                    <label class="slds-form-element__label" for="text-input-id-1">Date From</label>
+                    <div class="slds-form-element__control">
+                        <input type="date" id="text-input-id-from" class="slds-input" placeholder="Date From" value="{!searchRoom.DateFrom__c}" />
+                    </div>
+                </div>
+            </div>
+            <div class="slds-col slds-size_1-of-2">
+                <div class="slds-form-element">
+                    <label class="slds-form-element__label" for="text-input-id-1">Date To</label>
+                    <div class="slds-form-element__control">
+                        <input type="date" id="text-input-id-to" class="slds-input" placeholder="Date To" value="{!searchRoom.DateTo__c}" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <table class="slds-table slds-table_resizable-cols slds-table_fixed-layout" role="grid" id="price-table-id">
+          <thead>
+            <tr class="slds-line-height_reset slds-is-selected">
+              <th aria-sort="none" class="slds-is-sortable slds-is-resizable slds-text-title_caps" aria-label="Name" scope="col">
+                <a class="slds-th__action slds-text-link_reset" href="javascript:void(0);" role="button" tabindex="-1">
+                  <span class="slds-truncate" title="Name">Room</span>
+                </a>
+              </th>
+              <th aria-sort="none" class="slds-is-sortable slds-is-resizable slds-text-title_caps" aria-label="Account Name" scope="col">
+                <a class="slds-th__action slds-text-link_reset" href="javascript:void(0);" role="button" tabindex="-1">
+                  <span class="slds-truncate" title="Account Name">Addon</span>
+                </a>
+              </th>
+              <th aria-sort="none" class="slds-is-sortable slds-is-resizable slds-text-title_caps" aria-label="Close Date" scope="col">
+                <a class="slds-th__action slds-text-link_reset" href="javascript:void(0);" role="button" tabindex="-1">
+                  <span class="slds-truncate" title="Close Date">Date From</span>
+                </a>
+              </th>
+              <th aria-sort="none" class="slds-is-sortable slds-is-resizable slds-text-title_caps" aria-label="Stage" scope="col">
+                <a class="slds-th__action slds-text-link_reset" href="javascript:void(0);" role="button" tabindex="-1">
+                  <span class="slds-truncate" title="Stage">Date To</span>
+                </a>
+              </th>
+              <th aria-sort="none" class="slds-is-sortable slds-is-resizable slds-text-title_caps" aria-label="Confidence" scope="col">
+                <a class="slds-th__action slds-text-link_reset" href="javascript:void(0);" role="button" tabindex="-1">
+                  <span class="slds-truncate" title="Confidence">Value</span>
+                </a>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+
+          </tbody>
+      </table>
+    </div>
+
+    <script type="text/javascript">
+        function doSearchRoom() {
+            let room = document.querySelector('#text-input-id-room').value;
+            let addon = document.querySelector('#text-input-id-addon').value;
+            let dateFrom = document.querySelector('#text-input-id-from').value;
+            let dateTo = document.querySelector('#text-input-id-to').value;
+
+            doSearchRoomFunc(room, addon, dateFrom, dateTo);
+        }
+
+        function displayTable(priceJSON) {
+            let prices = JSON.parse(priceJSON);
+            let tr = '';
+            console.log('---prices=', prices);
+
+            for (let i = 0; i < prices.length; i++) {
+                tr += '<tr class="slds-hint-parent">';
+                tr += '<td scope="row" tabindex="0">' + ((prices[i].Room__c != undefined) ? prices[i].Room__r.Name : ' - ') + '</td>';
+                tr += '<td scope="row" tabindex="0">' + ((prices[i].Addon__c != undefined) ? prices[i].Addon__r.Name : ' - ') + '</td>';
+                tr += '<td scope="row" tabindex="0">' + prices[i].DateFrom__c + '</td>';
+                tr += '<td scope="row" tabindex="0">' + prices[i].DateTo__c + '</td>';
+                tr += '<td scope="row" tabindex="0">' + prices[i].Value__c + '</td>';
+                tr += '</tr>';
+                console.log('----tr=', tr);
+            }
+            document.querySelector('#price-table-id tbody').innerHTML = tr;
+        }
+    </script>
 </apex:page>
